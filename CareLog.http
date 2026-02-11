@@ -1,0 +1,16 @@
+@api = http://localhost:8080
+@tenant = 11111111-1111-1111-1111-111111111111
+
+### Login
+POST {{api}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@demo.local",
+  "password": "Passw0rd!"
+}
+
+### List patients (replace token)
+GET {{api}}/api/patients
+Authorization: Bearer {{token}}
+X-Tenant-Id: {{tenant}}

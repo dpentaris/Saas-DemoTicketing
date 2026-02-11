@@ -1,0 +1,30 @@
+@page "/patients"
+@inject IHttpClientFactory Clients
+
+<h3>Patients</h3>
+<table class="table table-bordered">
+    <thead><tr><th>Name</th><th>Allergies</th><th>Emergency Contact</th></tr></thead>
+    <tbody>
+    @foreach (var p in patients)
+    {
+        <tr><td>@p.FirstName @p.LastName</td><td>@p.Allergies</td><td>@p.EmergencyContact</td></tr>
+    }
+    </tbody>
+</table>
+
+@code {
+    private List<PatientDto> patients = new();
+    protected override async Task OnInitializedAsync()
+    {
+        var client = Clients.CreateClient("api");
+        patients = await client.GetFromJsonAsync<List<PatientDto>>("/api/patients") ?? new();
+    }
+
+    public sealed class PatientDto
+    {
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public string Allergies { get; set; } = string.Empty;
+        public string EmergencyContact { get; set; } = string.Empty;
+    }
+}

@@ -1,13 +1,41 @@
-version: '3.9'
 services:
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+  postgres:
+    image: postgres:16
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Your_strong_password_!
+      POSTGRES_USER: carelog
+      POSTGRES_PASSWORD: carelog
+      POSTGRES_DB: carelog
     ports:
-      - "1433:1433"
+      - "5432:5432"
     volumes:
-      - sqlserver-data:/var/opt/mssql
+      - carelog_pg:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: .
+      dockerfile: src/CareLog.Api/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Default: Host=postgres;Port=5432;Database=carelog;Username=carelog;Password=carelog
+      Jwt__Issuer: carelog-api
+      Jwt__Audience: carelog-clients
+      Jwt__Key: THIS_IS_A_LOCAL_DEV_ONLY_DEMO_SECRET_CHANGE_ME
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  web:
+    build:
+      context: .
+      dockerfile: src/CareLog.Web/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ApiBaseUrl: http://api:8080
+    ports:
+      - "8081:8081"
+    depends_on:
+      - api
+
 volumes:
-  sqlserver-data:
+  carelog_pg:
