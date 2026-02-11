@@ -1,78 +1,108 @@
-# SaasTicketingDemo
+# CareLog Monorepo
 
-A lightweight SaaS ticketing skeleton built on .NET 8 that demonstrates multi-tenant architecture, tenant-aware APIs, and core ticketing workflows such as issuing and scanning tickets.
+CareLog is a multi-tenant SaaS for home care field service operations.
 
-## Solution layout
-- `SaasTicketing.Api` – ASP.NET Core Web API with tenant-aware endpoints and Swagger.
-- `SaasTicketing.Domain` – Core domain entities and enums with nullable reference types enabled.
-- `SaasTicketing.Infrastructure` – EF Core data access, multi-tenant enforcement, save-change interception, and seed data.
-- `SaasTicketing.Tests` – Unit and integration-style tests covering isolation and scanning behavior.
+## Architecture
 
-## Prerequisites
-- .NET 8 SDK
-- Docker (for local SQL Server via `docker-compose`)
+- `src/CareLog.Domain`: entities + enums.
+- `src/CareLog.Application`: MediatR commands/queries + validation + abstractions.
+- `src/CareLog.Infrastructure`: EF Core PostgreSQL, Identity, JWT, multi-tenancy filters, storage provider, seed data.
+- `src/CareLog.Api`: ASP.NET Core API (JWT auth, refresh token flow, tenant middleware, sync endpoint, Swagger).
+- `src/CareLog.Web`: Blazor Server admin portal (calendar/patients/reports pages).
+- `src/CareLog.Mobile`: .NET MAUI app (MVVM, offline SQLite outbox + sync retry backoff).
+- `tests/*`: domain and integration tests.
 
-## Getting started
-1. Start SQL Server:
-   ```bash
-   docker-compose up -d
-   ```
-2. Restore and build (from the repository root):
-   ```bash
-   dotnet restore
-   dotnet build SaasTicketingDemo.sln
-   ```
-3. Apply migrations and run the API:
-   ```bash
-   dotnet ef database update --project SaasTicketing.Infrastructure --startup-project SaasTicketing.Api
-   dotnet run --project SaasTicketing.Api
-   ```
-4. Open Swagger UI at `http://localhost:5000/swagger` (default Kestrel port) and health check at `/health`.
+## Multi-tenancy model
 
-### Tenancy & authentication
-- All business endpoints are under `/t/{tenantSlug}/...` and are validated by `TenantResolutionMiddleware`.
-- Demo authentication uses headers:
-  - `X-Demo-UserId`: a GUID of a seeded user (e.g., `12121212-1212-1212-1212-121212121212`).
-  - `X-Demo-Role`: one of `Owner|Admin|Staff|Scanner`.
+Shared database with `TenantId` on tenant scoped tables.
 
-### Seeded tenants and users
-- `acme` (active) with owner `admin@acme.test` (`12121212-1212-1212-1212-121212121212`).
-- `demoport` (active) with owner `admin@demoport.test` (`14141414-1414-1414-1414-141414141414`).
-- Each tenant also has a scanner user (`scanner@...`).
+Enforcement layers:
+1. `TenantResolutionMiddleware` reads `X-Tenant-Id` and sets scoped tenant context.
+2. `AppDbContext` global query filters apply `TenantId == CurrentTenant` on all `ITenantScoped` entities.
+3. Save pipeline auto-stamps missing `TenantId` values.
 
-### Example cURL calls
-Create an event for `acme`:
+## Auth & RBAC
+
+- ASP.NET Core Identity for users and role management.
+- JWT access token + refresh token persistence (`RefreshTokens` table).
+- Roles:
+  - Admin
+  - Coordinator
+  - Nurse
+  - BackOffice
+  - ReadOnly
+
+## Offline sync strategy (mobile)
+
+- Records created offline are stored locally in SQLite outbox.
+- Background sync posts outbox payloads to `/api/sync`.
+- Retry uses exponential backoff (`2^retry`, capped at 60s).
+- Conflict policy for records: last-write-wins with conflict warning returned to client and audit event written.
+
+## Attachments
+
+- File upload endpoint supports photo (`image/jpeg`, `image/png`) and PDFs.
+- Local provider stores in API filesystem (`attachments/` folder).
+- `IFileStorage` abstraction allows S3/Blob replacement later.
+
+## Audit logging
+
+`AuditEvents` table stores immutable event rows for sensitive operations with:
+- who
+- when
+- tenant
+- entity
+- entity id
+- diff summary
+
+## Run with Docker Compose
+
 ```bash
-curl -X POST http://localhost:5000/t/acme/events \
-  -H "X-Demo-UserId: 12121212-1212-1212-1212-121212121212" \
-  -H "X-Demo-Role: Admin" \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Spring Expo","slug":"spring-expo","venue":"HQ","startsAtUtc":"2025-05-01T12:00:00Z","endsAtUtc":"2025-05-01T16:00:00Z"}'
+./scripts/dev-up.sh
 ```
 
-Issue tickets by marking an order as paid:
+This starts:
+- PostgreSQL on `5432`
+- API on `8080`
+- Web on `8081`
+
+Stop:
+
 ```bash
-curl -X POST http://localhost:5000/t/acme/orders/{orderId}/mark-paid \
-  -H "X-Demo-UserId: 12121212-1212-1212-1212-121212121212" \
-  -H "X-Demo-Role: Staff"
+./scripts/dev-down.sh
 ```
 
-Scan a ticket (idempotent):
+## Local development
+
 ```bash
-curl -X POST http://localhost:5000/t/acme/scan \
-  -H "X-Demo-UserId: 13131313-1313-1313-1313-131313131313" \
-  -H "X-Demo-Role: Scanner" \
-  -H "Content-Type: application/json" \
-  -d '{"ticketCode":"ACME-001","idempotencyKey":"scan-001"}'
+# API
+dotnet run --project src/CareLog.Api
+
+# Web
+dotnet run --project src/CareLog.Web
+
+# Mobile (example)
+dotnet build src/CareLog.Mobile
 ```
 
-## Tests
-Run all tests:
+## EF Core migrations
+
 ```bash
-dotnet test SaasTicketingDemo.sln
+dotnet ef migrations add InitialCreate --project src/CareLog.Infrastructure --startup-project src/CareLog.Api
+dotnet ef database update --project src/CareLog.Infrastructure --startup-project src/CareLog.Api
 ```
+
+## API docs and samples
+
+- Swagger: `http://localhost:8080/swagger`
+- HTTP request samples: `CareLog.http`
+
+## Demo seeded credentials
+
+- Email: `admin@demo.local`
+- Password: `Passw0rd!`
 
 ## Notes
-- Multi-tenancy is enforced via route-based resolution, EF Core query filters, and save-change interception to prevent cross-tenant writes.
-- Ticket scanning is transactional, concurrency-safe via row versions, and idempotent by `IdempotencyKey`.
-- Payments are mocked; marking an order as paid issues tickets immediately.
+
+- This repo is structured for production evolution, but in this environment runtime verification is limited if .NET SDK is unavailable.
+- Integration test contains a placeholder pattern for tenant isolation fixture wiring.

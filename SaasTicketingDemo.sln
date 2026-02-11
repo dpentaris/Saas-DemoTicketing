@@ -2,13 +2,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SaasTicketing.Api", "SaasTicketing.Api/SaasTicketing.Api.csproj", "{9406097A-C5BB-482D-9D74-42F35B17955B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareLog.Domain", "src/CareLog.Domain/CareLog.Domain.csproj", "{11111111-1111-1111-1111-111111111111}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SaasTicketing.Domain", "SaasTicketing.Domain/SaasTicketing.Domain.csproj", "{C93A8A6D-2EDA-4D00-A938-D21029C0357D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareLog.Application", "src/CareLog.Application/CareLog.Application.csproj", "{22222222-2222-2222-2222-222222222222}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SaasTicketing.Infrastructure", "SaasTicketing.Infrastructure/SaasTicketing.Infrastructure.csproj", "{EA1CD068-EF64-4950-82FF-DE8F74C427C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareLog.Infrastructure", "src/CareLog.Infrastructure/CareLog.Infrastructure.csproj", "{33333333-3333-3333-3333-333333333333}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SaasTicketing.Tests", "SaasTicketing.Tests/SaasTicketing.Tests.csproj", "{2C52332C-7406-440C-ADE3-A41239638907}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CareLog.Api", "src/CareLog.Api/CareLog.Api.csproj", "{44444444-4444-4444-4444-444444444444}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CareLog.Web", "src/CareLog.Web/CareLog.Web.csproj", "{55555555-5555-5555-5555-555555555555}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CareLog.Mobile", "src/CareLog.Mobile/CareLog.Mobile.csproj", "{66666666-6666-6666-6666-666666666666}"
+EndProject
+Project("{3AC096D0-A1C2-E12C-1390-A8335801FDAB}") = "CareLog.Domain.Tests", "tests/CareLog.Domain.Tests/CareLog.Domain.Tests.csproj", "{77777777-7777-7777-7777-777777777777}"
+EndProject
+Project("{3AC096D0-A1C2-E12C-1390-A8335801FDAB}") = "CareLog.Api.IntegrationTests", "tests/CareLog.Api.IntegrationTests/CareLog.Api.IntegrationTests.csproj", "{88888888-8888-8888-8888-888888888888}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,27 +24,5 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9406097A-C5BB-482D-9D74-42F35B17955B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9406097A-C5BB-482D-9D74-42F35B17955B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9406097A-C5BB-482D-9D74-42F35B17955B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9406097A-C5BB-482D-9D74-42F35B17955B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C93A8A6D-2EDA-4D00-A938-D21029C0357D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C93A8A6D-2EDA-4D00-A938-D21029C0357D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C93A8A6D-2EDA-4D00-A938-D21029C0357D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C93A8A6D-2EDA-4D00-A938-D21029C0357D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA1CD068-EF64-4950-82FF-DE8F74C427C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA1CD068-EF64-4950-82FF-DE8F74C427C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA1CD068-EF64-4950-82FF-DE8F74C427C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA1CD068-EF64-4950-82FF-DE8F74C427C9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2C52332C-7406-440C-ADE3-A41239638907}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2C52332C-7406-440C-ADE3-A41239638907}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2C52332C-7406-440C-ADE3-A41239638907}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2C52332C-7406-440C-ADE3-A41239638907}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {F80E46A6-8F00-4EF0-9461-1223775193B2}
 	EndGlobalSection
 EndGlobal

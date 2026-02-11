@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CareLog.Mobile.Views.TodayPage"
+             Title="Today">
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
+        <CollectionView ItemsSource="{Binding Visits}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="8">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Address}" FontAttributes="Bold"/>
+                            <Label Text="{Binding ScheduledStart}"/>
+                            <HorizontalStackLayout>
+                                <Button Text="Check-in" Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CheckInCommand}" CommandParameter="{Binding Id}"/>
+                                <Button Text="Add Record" Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.AddRecordCommand}" CommandParameter="{Binding Id}"/>
+                                <Button Text="Check-out" Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CheckOutCommand}" CommandParameter="{Binding Id}"/>
+                            </HorizontalStackLayout>
+                            <Label Text="{Binding SyncStatus}" FontSize="12"/>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+</ContentPage>

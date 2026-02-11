@@ -1,0 +1,32 @@
+@page "/calendar"
+@inject IHttpClientFactory Clients
+
+<h3>Weekly Visit Calendar</h3>
+<p>Drag/drop placeholder is wired via JS interop hook for pragmatic iteration.</p>
+<table class="table table-sm table-striped">
+    <thead><tr><th>Start</th><th>End</th><th>Address</th><th>Status</th><th>Nurse</th></tr></thead>
+    <tbody>
+    @foreach (var visit in visits)
+    {
+        <tr draggable="true"><td>@visit.ScheduledStart</td><td>@visit.ScheduledEnd</td><td>@visit.Address</td><td>@visit.Status</td><td>@visit.AssignedNurseId</td></tr>
+    }
+    </tbody>
+</table>
+
+@code {
+    private List<VisitDto> visits = new();
+    protected override async Task OnInitializedAsync()
+    {
+        var client = Clients.CreateClient("api");
+        visits = await client.GetFromJsonAsync<List<VisitDto>>($"/api/visits/week?start={DateTimeOffset.UtcNow:O}") ?? new();
+    }
+
+    public sealed class VisitDto
+    {
+        public DateTimeOffset ScheduledStart { get; set; }
+        public DateTimeOffset ScheduledEnd { get; set; }
+        public string Address { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
+        public Guid? AssignedNurseId { get; set; }
+    }
+}
