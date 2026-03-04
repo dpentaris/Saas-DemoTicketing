@@ -1,0 +1,16 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:16
+    container_name: careflux-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: careflux
+      POSTGRES_USER: careflux
+      POSTGRES_PASSWORD: careflux_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - careflux-postgres-data:/var/lib/postgresql/data
+volumes:
+  careflux-postgres-data:
