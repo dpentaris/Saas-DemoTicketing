@@ -1,0 +1,51 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CareFlux.Domain", "backend/CareFlux.Domain/CareFlux.Domain.csproj", "{2A6FDC97-39FD-4258-A6BB-903A44306C1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CareFlux.Application", "backend/CareFlux.Application/CareFlux.Application.csproj", "{6F2EA1C0-175A-4AA8-85E6-A4A4A266DF8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CareFlux.Infrastructure", "backend/CareFlux.Infrastructure/CareFlux.Infrastructure.csproj", "{49A2D1B4-2EB4-4A2E-A062-793764CA4D9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CareFlux.Contracts", "shared/CareFlux.Contracts/CareFlux.Contracts.csproj", "{E1E72980-2C60-4743-802B-B3BBEC243608}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CareFlux.Api", "backend/CareFlux.Api/CareFlux.Api.csproj", "{53EF5307-1E52-4BD8-8172-7A0F3032DA11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CareFlux.Maui", "apps/CareFlux.Maui/CareFlux.Maui.csproj", "{7DA124A9-6A62-4230-A716-D1DAAAED79A0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A6FDC97-39FD-4258-A6BB-903A44306C1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A6FDC97-39FD-4258-A6BB-903A44306C1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A6FDC97-39FD-4258-A6BB-903A44306C1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A6FDC97-39FD-4258-A6BB-903A44306C1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F2EA1C0-175A-4AA8-85E6-A4A4A266DF8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F2EA1C0-175A-4AA8-85E6-A4A4A266DF8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F2EA1C0-175A-4AA8-85E6-A4A4A266DF8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F2EA1C0-175A-4AA8-85E6-A4A4A266DF8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49A2D1B4-2EB4-4A2E-A062-793764CA4D9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49A2D1B4-2EB4-4A2E-A062-793764CA4D9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49A2D1B4-2EB4-4A2E-A062-793764CA4D9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49A2D1B4-2EB4-4A2E-A062-793764CA4D9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1E72980-2C60-4743-802B-B3BBEC243608}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1E72980-2C60-4743-802B-B3BBEC243608}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1E72980-2C60-4743-802B-B3BBEC243608}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1E72980-2C60-4743-802B-B3BBEC243608}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53EF5307-1E52-4BD8-8172-7A0F3032DA11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53EF5307-1E52-4BD8-8172-7A0F3032DA11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53EF5307-1E52-4BD8-8172-7A0F3032DA11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53EF5307-1E52-4BD8-8172-7A0F3032DA11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DA124A9-6A62-4230-A716-D1DAAAED79A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DA124A9-6A62-4230-A716-D1DAAAED79A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DA124A9-6A62-4230-A716-D1DAAAED79A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DA124A9-6A62-4230-A716-D1DAAAED79A0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

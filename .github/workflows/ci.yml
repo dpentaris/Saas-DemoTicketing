@@ -1,0 +1,24 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  backend-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Restore backend projects
+        run: |
+          dotnet restore src/backend/CareFlux.Domain/CareFlux.Domain.csproj
+          dotnet restore src/backend/CareFlux.Application/CareFlux.Application.csproj
+          dotnet restore src/backend/CareFlux.Infrastructure/CareFlux.Infrastructure.csproj
+          dotnet restore src/shared/CareFlux.Contracts/CareFlux.Contracts.csproj
+          dotnet restore src/backend/CareFlux.Api/CareFlux.Api.csproj
+      - name: Build backend
+        run: dotnet build src/backend/CareFlux.Api/CareFlux.Api.csproj --configuration Release --no-restore
